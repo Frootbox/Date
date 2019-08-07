@@ -7,4 +7,25 @@ namespace Frootbox\Dates;
 
 class Data {
     
+    /**
+     *
+     */
+    public function setDate ( $date ): Date {
+
+        // Match date like 23.08.19 12:00
+        if (preg_match('#^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,4}) ([0-9]{1,2})\:([0-9]{1,2})$#', $date, $match)) {
+
+            $this->timestamp = mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
+        }
+        // Match date like 2019-08-23 12:00:00
+        else if (preg_match('#^([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2})\:([0-9]{2})\:([0-9]{2})$#', $date, $match)) {
+
+            $this->timestamp = mktime($match[4], $match[5], $match[6], $match[2], $match[3], $match[1]);
+        }
+        else {
+            throw new \Frootbox\Exceptions\InputInvalid('Invalid date string: ' . $date);
+        }
+
+        return $this;
+    }
 }
