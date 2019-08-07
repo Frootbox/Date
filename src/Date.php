@@ -7,6 +7,30 @@ namespace Frootbox\Dates;
 
 class Data {
     
+    protected $timestamp;
+
+
+    /**
+     *
+     */
+    public function __construct ( $date = null ) {
+
+        if (!empty($date)) {
+            $this->setDate($date);
+        }
+
+    }
+
+
+    /**
+     *
+     */
+    public function format ( $format ) {
+
+        return date($format, $this->timestamp);
+    }
+
+
     /**
      *
      */
