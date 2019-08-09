@@ -5,7 +5,7 @@
 
 namespace Frootbox\Dates;
 
-class Data {
+class Date {
     
     protected $timestamp;
 
@@ -27,7 +27,7 @@ class Data {
      */
     public function format ( $format ) {
 
-        return date($format, $this->timestamp);
+        return strftime($format, $this->timestamp);
     }
 
 
