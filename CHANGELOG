@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Autodetection for format "2019-08-23 12:00"
 - Method Date::__toString()
 - Method Date::setDate()
 - Method Date::format()

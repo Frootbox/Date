@@ -60,6 +60,11 @@ class Date {
         {
             $this->timestamp = mktime($match[4], $match[5], $match[6], $match[2], $match[3], $match[1]);
         }
+        // Match date like 2019-08-23 12:00
+        else if (preg_match('#^([0-9]{4})\-([0-9]{2})\-([0-9]{2}) ([0-9]{2})\:([0-9]{2})$#', $date, $match))
+        {
+            $this->timestamp = mktime($match[4], $match[5], 0, $match[2], $match[3], $match[1]);
+        }
         // Match date like 2019-08-23
         else if (preg_match('#^([0-9]{4})\-([0-9]{1,})\-([0-9]{1,})$#', $date, $match))
         {
