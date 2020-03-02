@@ -5,48 +5,56 @@
 
 namespace Frootbox\Dates;
 
-class Date {
-    
+class Date
+{
     protected $timestamp;
-
 
     /**
      *
      */
-    public function __construct ( $date = null ) {
-
+    public function __construct($date = null)
+    {
         if (!empty($date)) {
             $this->setDate($date);
         }
-
     }
-
 
     /**
      *
      */
-    public function __toString ( ): string
+    public function __toString(): string
     {
         return date('Y-m-d H:i:s', $this->timestamp);
     }
 
-
     /**
      *
      */
-    public function format ( $format ) {
-
+    public function format($format)
+    {
         return strftime($format, $this->timestamp);
     }
 
+    /**
+     *
+     */
+    public function modify(string $modify): void
+    {
+        $date = new \DateTime($this->format('%Y-%m-%d %H:%M:%S'));
+        $date->modify($modify);
+        $this->timestamp = $date->format('U');
+    }
 
     /**
      *
      */
-    public function setDate ( $date ): Date {
-
+    public function setDate($date): Date
+    {
+        if ($date == 'now') {
+            $this->timestamp = $_SERVER['REQUEST_TIME'];
+        }
         // Match date like 23.08.19 12:00
-        if (preg_match('#^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,4}) ([0-9]{1,2})\:([0-9]{1,2})$#', $date, $match))
+        elseif (preg_match('#^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,4}) ([0-9]{1,2})\:([0-9]{1,2})$#', $date, $match))
         {
             $this->timestamp = mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
         }
@@ -77,7 +85,7 @@ class Date {
         }
         else
         {
-            throw new \Frootbox\Exceptions\InputInvalid('Invalid date string: ' . $date);
+            throw new \Frootbox\Exceptions\InputInvalid('DateStringExpected', [ $date ]);
         }
 
         return $this;
